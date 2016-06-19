@@ -34,17 +34,20 @@ def read_page(url, page_num, keyword):
     req = request.Request(url,headers=page_headers)
     page = request.urlopen(req,data=page_data.encode('utf-8')).read()
     page = page.decode('utf-8')
+    print(page)
     return page
 
 def read_tag(page,tag):
     page_json = json.loads(page)#转化成json对象
     page_json = page_json['content']['positionResult']['result']#通过分析获取json信息可知，招聘信息包含在result中
-    page_result=[num for num in range[15]]#构造一个容量为15的list占位符，用来构造接下来的二维数组
+    print(page_json)
+    page_result=[num for num in range(15)]#构造一个容量为15的list占位符，用来构造接下来的二维数组
     for i in range(15):
         page_result[i]=[]#构造二维数组
         for page_tag in tag:
-            page_result[i].append[page_json[i].get(page_tag)]#遍历参数,将他们放置在同一个list中
+            page_result[i].append(page_json[i].get(page_tag))#遍历参数,将他们放置在同一个list中
         page_result[i][8] = ','.join(page_result[i][8])
+        print(page_result)
     return page_result
 
 def read_max_page(page):
@@ -69,21 +72,24 @@ def save_excel(fin_result,tag_name,file_name):
     book.close()
 
 if __name__ == '__main__':
+    page=read_page(url,1,'java')
+    read_tag(page,tag)
+    '''
     print('*****************即将进行抓取********************')
     keyword = input('请输入你要搜索的语言类型:')
     fin_result = []
-    max_page_num = read_max_page(read_page(url,1,keyword))
+    max_page_num = read_max_page(read_page(url,1,keyword))   
     for page_num in range(1,max_page_num):
-        print('*****************即将进行抓取********************')
+        print('*****************正在下载第%s页内容********************' % page_num)
         page = read_page(url,page_num,keyword)
         page_result = read_tag(page,tag)
         fin_result.extend(page_result)
     file_name = input('抓取完成，输入文件保存名:')
     save_excel(fin_result,tag_name,file_name)
     endtime = datetime.datetime.now()
-    time = (endtime-starttime).senconds
+    time = (endtime-starttime).seconds
     print('总用时：%s s' % time)
-
+    '''
 
 
 
