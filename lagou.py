@@ -34,7 +34,6 @@ def read_page(url, page_num, keyword):
     req = request.Request(url,headers=page_headers)
     page = request.urlopen(req,data=page_data.encode('utf-8')).read()
     page = page.decode('utf-8')
-    print(page)
     return page
 
 def read_tag(page,tag):
@@ -72,9 +71,6 @@ def save_excel(fin_result,tag_name,file_name):
     book.close()
 
 if __name__ == '__main__':
-    page=read_page(url,1,'java')
-    read_tag(page,tag)
-    '''
     print('*****************即将进行抓取********************')
     keyword = input('请输入你要搜索的语言类型:')
     fin_result = []
@@ -89,7 +85,6 @@ if __name__ == '__main__':
     endtime = datetime.datetime.now()
     time = (endtime-starttime).seconds
     print('总用时：%s s' % time)
-    '''
 
 
 
