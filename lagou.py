@@ -39,7 +39,6 @@ def read_page(url, page_num, keyword):
 def read_tag(page,tag):
     page_json = json.loads(page)#转化成json对象
     page_json = page_json['content']['positionResult']['result']#通过分析获取json信息可知，招聘信息包含在result中
-    print(page_json)
     page_result=[num for num in range(15)]#构造一个容量为15的list占位符，用来构造接下来的二维数组
     for i in range(15):
         page_result[i]=[]#构造二维数组
@@ -51,7 +50,9 @@ def read_tag(page,tag):
 
 def read_max_page(page):
     page_json = json.loads(page)
-    max_page_num = page_json['content']['pageNo']
+    page_count = page_json['content']['positionResult']['totalCount']
+    page_size = page_json['content']['pageSize']
+    max_page_num = page_count // page_size + (1 if page_count % page_size > 0 else 0)
     if max_page_num >30:
         max_page_num = 30
     return max_page_num
