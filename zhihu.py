@@ -17,21 +17,20 @@ r=requests.get(url)
 #使用cookie信息
 #获得session对象
 session = requests.session()
-print(session)
-c=session.cookies=cookielib.LWPCookieJar(filename='cookies')
+
+session.cookies=cookielib.LWPCookieJar(filename='cookies')
 try:
 	session.cookies.load(ignore_discard=True)
 except:
 	print("cookie 未能加载")
 
 def get_xsrf():
-	a=r.cookies['_xsrf']
-	return a
+	return r.cookies['_xsrf']
 def get_captcha():
 	t = str(int(time.time()*1000))
 	captcha_url = 'https://www.zhihu.com/captcha.gif?r='+t+"&type=login"
 	r=session.get(captcha_url,headers=headers)
-	with open('captcha.jpg','web') as f:
+	with open('captcha.jpg','wb') as f:
 		f.write(r.content)
 		f.close()
 	try:
